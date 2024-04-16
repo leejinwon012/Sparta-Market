@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>도마뱀 분양 거래 사이트</title>
+    <link
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <!-- 네비게이션 바 -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <a class="navbar-brand" href="#">도마뱀 분양</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="/"
+              >홈 <span class="sr-only">(current)</span></a
+            >
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">제품 목록</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">등록</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/accounts/login/">로그인</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/accounts/signup/">회원가입<a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- 메인 컨텐츠 -->
+    <div class="container my-4">
+      <!-- 게시글 리스트 -->
+      <h2 class="mb-4">도마뱀 분양</h2>
+      <div class="row">
+        {% for post in posts %}
+        <div class="col-md-4 mb-4">
+          <div class="card">
+            <img
+              src="{{ post.image_url }}"
+              class="card-img-top"
+              alt="도마뱀 사진"
+            />
+            <div class="card-body">
+              <h5 class="card-title">{{ post.title }}</h5>
+              <p class="card-text">작성자: {{ post.author }}</p>
+              <a href="#" class="btn btn-primary">자세히 보기</a>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- 푸터 -->
+    <footer class="footer bg-dark text-white text-center py-3">
+      <div class="container">
+        <span>© 2024 도마뱀 분양 거래 사이트. All rights reserved.</span>
+      </div>
+    </footer>
+
+    <!-- 부트스트랩 JS 추가 -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  </body>
+</html>

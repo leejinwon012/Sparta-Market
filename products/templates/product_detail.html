@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ product.title }} 상세 정보</title>
+
+    <link
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    {% for product in products %}
+    <div class="card">
+      <div class="card-header">
+        <h2 class="card-title">{{ product.title }}</h2>
+      </div>
+      <div class="card-body">
+        <p class="card-text">{{ product.description }}</p>
+        <p class="card-text">가격: ${{ product.price }}</p>
+      </div>
+      <div class="card-footer">
+        <div class="row">
+          <div class="col text-right">
+            <form action="{% url 'product_update' product.pk %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-primary">수정하기</button>
+            </form>
+            </div>
+            <form action="{% url 'product_delete' product.pk %}" method="post">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-danger">삭제하기</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+    <!-- 부트스트랩 JS CDN 링크 추가 (선택사항) -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  </body>
+</html>
