@@ -1,0 +1,30 @@
+<!-- profile.html -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ user.username }}의 프로필</title>
+  </head>
+  <body>
+    <h1>{{ user.username }}의 프로필</h1>
+    <p>가입일: {{ user.date_joined }}</p>
+
+    <h2>등록한 물품</h2>
+    <ul>
+      {% for item in owned_items %}
+      <li>{{ item.name }}</li>
+      {% endfor %}
+    </ul>
+
+    <h2>찜한 물품</h2>
+    <ul>
+      {% for item in liked_items %}
+      <li>{{ item.name }}</li>
+      {% endfor %}
+    </ul>
+
+    <h2>팔로워 수: {{ followers_count }}</h2>
+    <h2>팔로잉 수: {{ following_count }}</h2>
+  </body>
+</html>
