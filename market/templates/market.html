@@ -10,7 +10,6 @@
     />
   </head>
   <body>
-    <!-- 네비게이션 바 -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <a class="navbar-brand" href="#">도마뱀 분양</a>
       <button
@@ -32,38 +31,53 @@
             >
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">제품 목록</a>
+            <a class="nav-link" href="#">도마뱀 목록</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">등록</a>
+            <a class="nav-link" href="{% url 'product_create' %}">등록</a>
           </li>
+          <!-- 로그인/로그아웃 버튼과 사용자 환영 메시지 -->
+          {% if user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'logout' %}">로그아웃</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'profile' user.username %}"
+              >{{ user.username }}님 환영합니다</a
+            >
+          </li>
+          {% else %}
           <li class="nav-item">
             <a class="nav-link" href="/accounts/login/">로그인</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/accounts/signup/">회원가입<a>
+            <a class="nav-link" href="/accounts/signup/">회원가입</a>
           </li>
+          {% endif %}
         </ul>
       </div>
     </nav>
 
-    <!-- 메인 컨텐츠 -->
+    <!-- 전체 도마뱀 리스트 -->
     <div class="container my-4">
-      <!-- 게시글 리스트 -->
       <h2 class="mb-4">도마뱀 분양</h2>
       <div class="row">
-        {% for post in posts %}
-        <div class="col-md-4 mb-4">
-          <div class="card">
+        {% for product in products %}
+        <div class="col-lg-4 col-md-6 mb-4">
+          <div class="card h-100">
             <img
-              src="{{ post.image_url }}"
+              src="{{ product.image.url }}"
               class="card-img-top"
               alt="도마뱀 사진"
             />
             <div class="card-body">
-              <h5 class="card-title">{{ post.title }}</h5>
-              <p class="card-text">작성자: {{ post.author }}</p>
-              <a href="#" class="btn btn-primary">자세히 보기</a>
+              <h5 class="card-title">{{ product.title }}</h5>
+              <p class="card-text">작성자: {{ product.author.username }}</p>
+              <a
+                href="{% url 'product_detail' product.pk %}"
+                class="btn btn-primary"
+                >자세히 보기</a
+              >
             </div>
           </div>
         </div>
@@ -74,7 +88,7 @@
     <!-- 푸터 -->
     <footer class="footer bg-dark text-white text-center py-3">
       <div class="container">
-        <span>© 2024 도마뱀 분양 거래 사이트. All rights reserved.</span>
+        <span>© 2024 도마뱀 분양 거래 사이트 Made by.Jinwon </span>
       </div>
     </footer>
 

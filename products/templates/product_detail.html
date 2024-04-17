@@ -11,7 +11,6 @@
     />
   </head>
   <body>
-    {% for product in products %}
     <div class="card">
       <div class="card-header">
         <h2 class="card-title">{{ product.title }}</h2>
@@ -24,10 +23,9 @@
         <div class="row">
           <div class="col text-right">
             <form action="{% url 'product_update' product.pk %}" method="post">
-                {% csrf_token %}
-                <button type="submit" class="btn btn-primary">수정하기</button>
+              {% csrf_token %}
+              <button type="submit" class="btn btn-primary">수정하기</button>
             </form>
-            </div>
             <form action="{% url 'product_delete' product.pk %}" method="post">
               {% csrf_token %}
               <button type="submit" class="btn btn-danger">삭제하기</button>
@@ -36,7 +34,6 @@
         </div>
       </div>
     </div>
-    {% endfor %}
     <!-- 부트스트랩 JS CDN 링크 추가 (선택사항) -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   </body>

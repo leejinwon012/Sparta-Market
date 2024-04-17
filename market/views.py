@@ -1,9 +1,7 @@
 from django.shortcuts import render
-
-from django.shortcuts import render
-from .models import Post
+from .models import Post  # Post 모델을 임포트합니다.
 
 
 def home(request):
-    posts = Post.objects.all()
-    return render(request, 'market.html', {'posts': posts})
+    products = Post.objects.all()  # Post 모델을 사용합니다.
+    return render(request, 'market.html', {'products': products})
