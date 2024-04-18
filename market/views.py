@@ -1,7 +1,11 @@
-from django.shortcuts import render
-from .models import Post  # Post 모델을 임포트합니다.
+from django.shortcuts import redirect, render
+from django.contrib.auth.models import User
 
 
 def home(request):
-    products = Post.objects.all()  # Post 모델을 사용합니다.
-    return render(request, 'market.html', {'products': products})
+    return redirect('products:product_list')
+
+
+def user_list(request):
+    users = User.objects.all()
+    return render(request, 'user_list.html', {'users': users})

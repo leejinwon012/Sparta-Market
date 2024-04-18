@@ -1,30 +1,101 @@
-<!-- profile.html -->
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{{ user.username }}의 프로필</title>
+    <!-- 부트스트랩 CDN 링크 추가 -->
+    <link
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        background-color: #f8f9fa;
+      }
+      .profile-container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+      }
+      .profile-heading {
+        text-align: center;
+        margin-bottom: 30px;
+      }
+      .list-group-item {
+        border: none;
+        border-bottom: 1px solid #dee2e6;
+      }
+      .list-group-item:last-child {
+        border-bottom: none;
+      }
+    </style>
+    
   </head>
   <body>
-    <h1>{{ user.username }}의 프로필</h1>
-    <p>가입일: {{ user.date_joined }}</p>
+    <div class="profile-container">
+      <h1 class="profile-heading">{{ user.username }}의 프로필</h1>
+      <div class="card mb-4">
+        <div class="card-header">
+          <strong>가입일:</strong> {{ user.date_joined|date:"Y년 m월 d일" }}
+        </div>
+      </div>
+      {% if user != request.user %}
+    <form method="post">
+        {% csrf_token %}
+        {% if is_following %}
+            <button type="submit">언팔로우</button>
+        {% else %}
+            <button type="submit">팔로우</button>
+        {% endif %}
+    </form>
+    {% endif %}<br />
 
-    <h2>등록한 물품</h2>
-    <ul>
-      {% for item in owned_items %}
-      <li>{{ item.name }}</li>
-      {% endfor %}
-    </ul>
+        <div class="card mb-4">
+        <div class="card-header">
+          <strong>내가 등록한 물품들</strong>
+        </div>
+          <div class="list-group">
+            {% for item in owned_items %}
+            <li class="list-group-item">
+              <strong>{{ item.name }}</strong><br />
+              {{ item.description|truncatechars:100 }}<br />
+              가격: ${{ item.price }}
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
 
-    <h2>찜한 물품</h2>
-    <ul>
-      {% for item in liked_items %}
-      <li>{{ item.name }}</li>
-      {% endfor %}
-    </ul>
+      <div class="card mb-4">
+        <div class="card-header">
+          <strong>내가 찜한 물품들</strong>
+        </div>
+        <div class="card-body">
+          <ul class="list-group">
+            {% for product in liked_items %}
+            <li class="list-group-item">
+              <strong>{{ product.name }}</strong><br />
+              {{ product.description|truncatechars:100 }}<br />
+              가격: ${{ product.price }}
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
 
-    <h2>팔로워 수: {{ followers_count }}</h2>
-    <h2>팔로잉 수: {{ following_count }}</h2>
+      <div class="card">
+        <div class="card-header">
+          <strong>팔로우/팔로워</strong>
+        </div>
+        <div class="card-body">
+          <p class="card-text">팔로잉: {{ following_count }}</p>
+          <p class="card-text">팔로워: {{ followers_count }}</p>
+        </div>
+      </div>
+    </div>
   </body>
 </html>

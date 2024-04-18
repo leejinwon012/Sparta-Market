@@ -1,4 +1,7 @@
+from django.contrib.auth import get_user_model
 from django.db import models
+
+User = get_user_model()
 
 
 class Product(models.Model):
@@ -8,3 +11,5 @@ class Product(models.Model):
     image = models.ImageField(
         upload_to='product_images/', default='default_image.jpg')
     created_at = models.DateTimeField(auto_now_add=True)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    liked_by = models.ManyToManyField(User, related_name='liked_products')

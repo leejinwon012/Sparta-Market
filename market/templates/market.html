@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>도마뱀 분양 거래 사이트</title>
     <link
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
       rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
     />
   </head>
   <body>
@@ -31,12 +31,13 @@
             >
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">도마뱀 목록</a>
+            <a class="nav-link" href="{% url 'user_list' %}">사용자 목록</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'product_create' %}">등록</a>
+            <a class="nav-link" href="{% url 'products:product_create' %}"
+              >등록</a
+            >
           </li>
-          <!-- 로그인/로그아웃 버튼과 사용자 환영 메시지 -->
           {% if user.is_authenticated %}
           <li class="nav-item">
             <a class="nav-link" href="{% url 'logout' %}">로그아웃</a>
@@ -59,30 +60,33 @@
     </nav>
 
     <!-- 전체 도마뱀 리스트 -->
-    <div class="container my-4">
-      <h2 class="mb-4">도마뱀 분양</h2>
-      <div class="row">
-        {% for product in products %}
-        <div class="col-lg-4 col-md-6 mb-4">
-          <div class="card h-100">
+    <div class="row">
+      {% for product in products %}
+      <div class="col-lg-3 col-md-4 mb-3">
+        <div class="card">
+          <div class="text-center">
             <img
               src="{{ product.image.url }}"
-              class="card-img-top"
+              class="card-img-top img-fluid"
               alt="도마뱀 사진"
             />
-            <div class="card-body">
-              <h5 class="card-title">{{ product.title }}</h5>
-              <p class="card-text">작성자: {{ product.author.username }}</p>
-              <a
-                href="{% url 'product_detail' product.pk %}"
-                class="btn btn-primary"
-                >자세히 보기</a
-              >
-            </div>
+          </div>
+          <div class="card-body">
+            <h5 class="card-title">{{ product.title }}</h5>
+            <p class="card-text">
+              작성자: {% if product.author %}{{ product.author.username }}
+              {% endif %}
+            </p>
+
+            <a
+              href="{% url 'products:product_detail' pk=product.pk %}"
+              class="btn btn-primary"
+              >자세히 보기</a
+            >
           </div>
         </div>
-        {% endfor %}
       </div>
+      {% endfor %}
     </div>
 
     <!-- 푸터 -->

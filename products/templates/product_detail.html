@@ -4,7 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{{ product.title }} 상세 정보</title>
-
     <link
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
       rel="stylesheet"
@@ -16,25 +15,56 @@
         <h2 class="card-title">{{ product.title }}</h2>
       </div>
       <div class="card-body">
+        <img
+          src="{{ product.image.url }}"
+          alt="도마뱀 사진"
+          width="200"
+          height="200"
+        />
         <p class="card-text">{{ product.description }}</p>
         <p class="card-text">가격: ${{ product.price }}</p>
+        <p class="card-text">작성자: {{ product.author.username }}</p>
+        <p class="card-text">찜 수: {{ product.liked_by.count }}</p>
       </div>
       <div class="card-footer">
         <div class="row">
           <div class="col text-right">
-            <form action="{% url 'product_update' product.pk %}" method="post">
-              {% csrf_token %}
-              <button type="submit" class="btn btn-primary">수정하기</button>
-            </form>
-            <form action="{% url 'product_delete' product.pk %}" method="post">
+            {% if request.user == product.author %}
+            <a
+              href="{% url 'products:product_update' product.pk %}"
+              class="btn btn-primary"
+              >수정하기</a
+            >
+            <form
+              action="{% url 'products:product_delete' product.pk %}"
+              method="post"
+              style="display: inline"
+            >
               {% csrf_token %}
               <button type="submit" class="btn btn-danger">삭제하기</button>
             </form>
+            {% else %} {% if not is_author %}
+            <!-- 다른 사람이 작성한 게시글에만 찜하기 버튼 표시 -->
+            {% if not is_liked %}
+            <!-- 찜하지 않은 경우에만 찜하기 버튼 표시 -->
+            <form
+              action="{% url 'products:product_like' product.pk %}"
+              method="post"
+              style="display: inline"
+            >
+              {% csrf_token %}
+              <button type="submit" class="btn btn-primary">찜하기</button>
+            </form>
+            {% else %}
+            <!-- 찜한 경우 찜하기 취소 버튼 표시 -->
+            <form action="{% url 'products:product_like' product.pk %}" method="post" style="display: inline">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-secondary">찜하기 취소</button>
+            {% endif %} {% endif %} {% endif %}
           </div>
         </div>
       </div>
     </div>
-    <!-- 부트스트랩 JS CDN 링크 추가 (선택사항) -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   </body>
 </html>
