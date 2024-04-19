@@ -53,7 +53,16 @@
 <br/>
 <br/>
 
-## 🌐 웹 사이트 예시
+## ERD 💾
+
+<div align="center">
+  <img src="https://github.com/leejinwon012/Sparta-Market/assets/78424970/18eb804a-af66-420d-bb08-2c3531ac9f71" alt="제목 없는 다이어그램 drawio" width="600" height="300">
+</div>
+
+<br/>
+<br/>
+
+## 웹 사이트 예시 🌐
 
 <div align="center">
   <img src="https://github.com/leejinwon012/Sparta-Market/assets/78424970/6dbafe72-7921-48df-8e53-a4f5bf709fcc" alt="메인 페이지" width="400" height="300">
