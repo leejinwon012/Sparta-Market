@@ -11,6 +11,12 @@
 <br/>
 <br/>
 
+## 개인 프로젝트 🌟
+이 프로젝트는 개인이 스스로 기획하고 개발한 개인 프로젝트입니다.
+
+<br/>
+<br/>
+
 ## 주요 기능 🔍
 
 - **도마뱀 조회**: [등록된 도마뱀을 최신 순으로 조회합니다.](https://github.com/leejinwon012/Sparta-Market/tree/main/products)
