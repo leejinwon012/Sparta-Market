@@ -54,7 +54,7 @@
                 <a class="nav-link" href="{% url 'user_list' %}">사용자 목록</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'products:product_create' %}">등록</a>
+                <a class="nav-link" href="{% url 'products:product_create' %}">도마뱀 등록</a>
             </li>
             {% if user.is_authenticated %}
                 <li class="nav-item">
@@ -82,7 +82,7 @@
 
 <div class="container mt-4">
     <div class="row">
-        {% if query %}
+        {% if products %}
             {% for product in products %}
             <div class="col-lg-3 col-md-4 mb-4">
                 <div class="card">

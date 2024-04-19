@@ -1,3 +1,4 @@
+from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Product
@@ -75,3 +76,12 @@ def product_delete(request, pk):
     else:
         # 작성자가 아닌 경우에는 삭제 권한이 없으므로 상세 정보 페이지로 리디렉션
         return redirect('products:product_detail', pk=pk)
+
+
+def product_search(request):
+    query = request.GET.get('q')
+    if query:
+        products = Product.objects.filter(title__icontains=query)
+    else:
+        products = Product.objects.all().order_by('-created_at')
+    return render(request, 'product_search_result.html', {'products': products})

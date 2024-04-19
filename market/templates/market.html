@@ -8,10 +8,40 @@
       rel="stylesheet"
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
     />
+    <style>
+      body {
+        background-color: #f8f9fa;
+        font-family: Arial, sans-serif;
+      }
+      .navbar-brand {
+        font-weight: bold;
+      }
+      .navbar-toggler-icon {
+        background-color: white;
+      }
+      .navbar-nav .nav-item {
+        margin-left: 10px;
+      }
+      .card {
+        border: none;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+      }
+      .card-title {
+        font-weight: bold;
+      }
+      .card-body {
+        padding: 20px;
+      }
+      .footer {
+        background-color: #343a40;
+        color: white;
+      }
+    </style>
   </head>
   <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-      <a class="navbar-brand" href="#">도마뱀 분양</a>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+      <a class="navbar-brand" href="/">도마뱀 분양</a>
       <button
         class="navbar-toggler"
         type="button"
@@ -26,16 +56,14 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item active">
-            <a class="nav-link" href="/"
-              >홈 <span class="sr-only">(current)</span></a
-            >
+            <a class="nav-link" href="/">홈</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="{% url 'user_list' %}">사용자 목록</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="{% url 'products:product_create' %}"
-              >등록</a
+              >도마뱀 등록</a
             >
           </li>
           {% if user.is_authenticated %}
@@ -55,48 +83,51 @@
             <a class="nav-link" href="/accounts/signup/">회원가입</a>
           </li>
           {% endif %}
+          <!-- 검색 폼 추가 -->
+          <form class="form-inline mt-2 mt-md-0" method="GET" action="{% url 'products:search' %}">
+            <input class="form-control mr-sm-2" type="text" placeholder="제품 검색" aria-label="Search" name="q">
+            <button class="btn btn-outline-light my-2 my-sm-0" type="submit">검색</button>
+        </form>
+        
+
         </ul>
       </div>
     </nav>
 
-    <!-- 전체 도마뱀 리스트 -->
-    <div class="row">
-      {% for product in products %}
-      <div class="col-lg-3 col-md-4 mb-3">
-        <div class="card">
-          <div class="text-center">
+    <div class="container mt-4">
+      <div class="row">
+        {% for product in products %}
+        <div class="col-lg-3 col-md-4 mb-4">
+          <div class="card">
             <img
               src="{{ product.image.url }}"
-              class="card-img-top img-fluid"
+              class="card-img-top"
               alt="도마뱀 사진"
-            />
-          </div>
-          <div class="card-body">
-            <h5 class="card-title">{{ product.title }}</h5>
-            <p class="card-text">
-              작성자: {% if product.author %}{{ product.author.username }}
-              {% endif %}
-            </p>
-
-            <a
-              href="{% url 'products:product_detail' pk=product.pk %}"
-              class="btn btn-primary"
-              >자세히 보기</a
-            >
+              >
+            <div class="card-body">
+              <h5 class="card-title">{{ product.title }}</h5>
+              <p class="card-text">
+                작성자: {% if product.author %}{{ product.author.username }} 
+                {% endif %}
+              </p>
+              <a
+                href="{% url 'products:product_detail' pk=product.pk %}"
+                class="btn btn-primary"
+                >자세히 보기</a
+              >
+            </div>
           </div>
         </div>
+        {% endfor %}
       </div>
-      {% endfor %}
     </div>
 
-    <!-- 푸터 -->
-    <footer class="footer bg-dark text-white text-center py-3">
+    <footer class="footer bg-primary text-white text-center py-3">
       <div class="container">
-        <span>© 2024 도마뱀 분양 거래 사이트 Made by.Jinwon </span>
+        <span> 2024 도마뱀 분양 거래 사이트 Made by. Jinwon </span>
       </div>
     </footer>
 
-    <!-- 부트스트랩 JS 추가 -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

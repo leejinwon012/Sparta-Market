@@ -5,13 +5,18 @@ from django.contrib.auth import login as auth_login, logout as auth_logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from products.models import Product
+from django.contrib import messages
+
 
 def signup(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
             form.save()
+            messages.success(request, '회원가입이 성공적으로 완료되었습니다. 로그인해주세요.')
             return redirect('login')
+        else:
+            messages.error(request, '회원가입에 실패하였습니다. 올바른 정보를 입력해주세요.')
     else:
         form = UserCreationForm()
     return render(request, 'signup.html', {'form': form})
@@ -45,7 +50,7 @@ def profile(request, username):
         else:
             user_profile.followers.add(request.user)
         return redirect('profile', username=username)
-    
+
     # 내가 등록한 물품
     owned_items = Product.objects.filter(author=user)
 
