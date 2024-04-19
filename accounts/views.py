@@ -14,7 +14,7 @@ def signup(request):
         if form.is_valid():
             form.save()
             messages.success(request, '회원가입이 성공적으로 완료되었습니다. 로그인해주세요.')
-            return redirect('login')
+            return redirect('signup')
         else:
             messages.error(request, '회원가입에 실패하였습니다. 올바른 정보를 입력해주세요.')
     else:
