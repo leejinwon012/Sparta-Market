@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ user.username }}의 프로필</title>
+    <!-- 부트스트랩 CDN 링크 추가 -->
+    <link
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        background-color: #f8f9fa;
+      }
+      .profile-container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+      }
+      .profile-heading {
+        text-align: center;
+        margin-bottom: 30px;
+      }
+      .list-group-item {
+        border: none;
+        border-bottom: 1px solid #dee2e6;
+      }
+      .list-group-item:last-child {
+        border-bottom: none;
+      }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <a class="navbar-brand" href="/">도마뱀 분양</a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-toggle="collapse"
+      data-target="#navbarNav"
+      aria-controls="navbarNav"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="/">홈</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'user_list' %}">사용자 목록</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'products:product_create' %}">도마뱀 등록</a>
+        </li>
+        {% if user.is_authenticated %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'logout' %}">로그아웃</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'profile' user.username %}"
+            >{{ user.username }}님 환영합니다</a
+          >
+        </li>
+        {% else %}
+        <li class="nav-item">
+          <a class="nav-link" href="/accounts/login/">로그인</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/accounts/signup/">회원가입</a>
+        </li>
+        {% endif %}
+        <!-- 검색 폼 추가 -->
+        <form class="form-inline mt-2 mt-md-0" method="GET" action="{% url 'products:search' %}">
+          <input class="form-control mr-sm-2" type="text" placeholder="제품 검색" aria-label="Search" name="q">
+          <button class="btn btn-outline-light my-2 my-sm-0" type="submit">검색</button>
+      </form>
+      </ul>
+    </div>
+  </nav>
+<div class="profile-container">
+  <h1 class="profile-heading">{{ user.username }}의 프로필</h1>
+  <div class="card mb-4">
+    <div class="card-header">
+      <strong>가입일:</strong> {{ user.date_joined|date:"Y년 m월 d일" }}
+    </div>
+  </div>
+  {% if user != request.user %}
+  <form method="post">
+      {% csrf_token %}
+      {% if is_following %}
+          <button type="submit">언팔로우</button>
+      {% else %}
+          <button type="submit">팔로우</button>
+      {% endif %}
+  </form>
+  {% endif %}<br />
+
+      <div class="card mb-4">
+    <div class="card-header">
+      <strong>내가 등록한 물품들</strong>
+    </div>
+      <div class="list-group">
+        {% for item in owned_items %}
+        <li class="list-group-item">
+          <strong>{{ item.name }}</strong><br />
+          {{ item.description|truncatechars:100 }}<br />
+          가격: ${{ item.price }}
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+
+  <div class="card mb-4">
+    <div class="card-header">
+      <strong>내가 찜한 물품들</strong>
+    </div>
+    <div class="card-body">
+      <ul class="list-group">
+        {% for product in liked_items %}
+        <li class="list-group-item">
+          <strong>{{ product.name }}</strong><br />
+          {{ product.description|truncatechars:100 }}<br />
+          가격: ${{ product.price }}
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <strong>팔로우/팔로워</strong>
+    </div>
+    <div class="card-body">
+      <p class="card-text">팔로잉: {{ following_count }}</p>
+      <p class="card-text">팔로워: {{ followers_count }}</p>
+    </div>
+  </div>
+</div>
+</body>
+</html>
